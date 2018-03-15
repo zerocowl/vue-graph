@@ -1,0 +1,7 @@
+query Students {
+  students {
+    name
+    age
+    maximum_grade
+  }
+}

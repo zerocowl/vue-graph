@@ -1,0 +1,6 @@
+mutation changeSchoolName ($name: name!) {
+  updateName (name: $name) {
+    name
+    city
+  }
+}
