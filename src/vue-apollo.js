@@ -10,10 +10,9 @@ const options = {
   ssr: true,
   base: process.env.VUE_APP_GRAPHQL_ENDPOINT || 'http://localhost:4000',
   endpoints: {
-    graphql: process.env.VUE_APP_GRAPHQL_PATH || '/graphql',
-    //subscription: process.env.VUE_APP_GRAPHQL_SUBSCRIPTIONS_PATH || '/graphql',
+    graphql: process.env.VUE_APP_GRAPHQL_PATH || '/graphql'
   },
-  persisting: false,
+  persisting: false
 }
 
 // Create apollo client
@@ -21,5 +20,5 @@ export const apolloClient = createApolloClient(options)
 
 // Create vue apollo provider
 export const apolloProvider = new VueApollo({
-  defaultClient: apolloClient,
+  defaultClient: apolloClient
 })

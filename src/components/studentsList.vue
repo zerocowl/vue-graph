@@ -1,82 +1,42 @@
 <template>
-  <div class="list-of-students">  
-    <!-- Apollo watched Graphql query -->
-    <ApolloQuery
-      :query="require('../graphql/students.gql')"
-    >
-      <template slot-scope="{ result: { loading, error, data } }">
-        <!-- Loading -->
-        <div v-if="loading" class="loading apollo">Pera um pouquinho...</div>
+  <ApolloQuery :query="require('../graphql/students.gql')">
+    <template slot-scope="{ result: { loading, error, data } }">
 
-        <!-- Error -->
-        <div v-else-if="error" class="error apollo">Azedo :/</div>
+      <!-- Loading -->
+      <div v-if="loading" class="loading apollo">
+        <v-progress-linear :indeterminate="true"></v-progress-linear>
+      </div>
 
-        <!-- Result -->
-        <div v-else-if="data" class="result apollo">
-            <table>
-            <tr>
-                <th>Nome</th>
-                <th>Idade</th>
-                <th>Maior Nota</th>
-            </tr>
-            <tr  v-for="student in data.students" :key="student.name">
-                <td>{{ student.name }}</td>
-                <td>{{ student.age }}</td>
-                <td>{{ student.maximum_grade }}</td>
-            </tr>
-            </table>
-        </div>
-        <!-- No result -->
-        <div v-else class="no-result apollo">Ué não tem nada :(</div>
-         
-      </template>
-     
-    </ApolloQuery>
-    
-  </div>
-  
+      <!-- Error -->
+      <div v-else-if="error" class="error apollo">
+        <v-alert type="error" :value="true">
+         <h2> Ops...</h2>
+        </v-alert>
+      </div>
+
+      <!-- Sucess -->
+      <div v-else-if="data" class="result apollo">
+        <h1>Alunos</h1>
+        <v-list three-line class="mx-auto">
+          <template v-for="(student, index) in data.students">
+            <v-subheader :key="student.name" color="blue">
+              <b>Nome: </b> {{ student.name }}</v-subheader>
+            <v-list-tile color="black">
+              <v-list-tile-content>
+                <v-list-tile-title>Maior nota: {{student.maximum_grade}}</v-list-tile-title>
+                <v-list-tile-sub-title>Idade:{{student.age}} anos</v-list-tile-sub-title>
+              </v-list-tile-content>
+            </v-list-tile>
+            <v-divider :key="index"></v-divider>
+          </template>
+        </v-list>
+      </div>
+    </template>
+  </ApolloQuery>
 </template>
 
 <style scoped>
-.form,
-.input,
-.apollo,
-.message {
-  padding: 12px;
-}
-
-.input {
-  font-family: inherit;
-  font-size: inherit;
-  border: solid 2px #ccc;
-  border-radius: 3px;
-}
-
-.error {
-  color: red;
-}
-
-table {
-  border: 2px solid rgba(56, 68, 243, 0.836);  
-  background-color: #fff;
-}
-
-th {
-  background-color: #6aabd6;
-  color: rgba(255,255,255,0.66);
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-td {
-  background-color: #f9f9f9;
-}
-
-th, td {
-  min-width: 120px;
-  padding: 10px 20px;
-}
+  h1, h2, h3 {
+    color: white;
+  }
 </style>
